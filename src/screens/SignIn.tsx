@@ -8,13 +8,13 @@ import { Button } from "../components/Button";
 import { useAuth } from "../hooks/useAuth";
 
 export function SignIn() {
-    const [count, setCount] = useState(0)
+    // const [count, setCount] = useState(0)
 
-    useEffect(() => {
-        fetch("http://172.31.120.0:3333/users/count")
-          .then(response => response.json())
-          .then(data => setCount(data.count))
-      }, [])
+    // useEffect(() => {
+    //     fetch("http://10.10.10.184:3333/users/count")
+    //       .then(response => response.json())
+    //       .then(data => setCount(data.count))
+    //   }, [])
     
       
     const { signIn, isUserLoading } = useAuth()
