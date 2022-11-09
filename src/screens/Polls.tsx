@@ -12,7 +12,7 @@ import { PoolCard } from "../components/PoolCard";
 import { api } from "../services/api";
 
 
-interface pollsProps {
+export interface pollsProps {
     Participant: {
         id: string;
         User: {
@@ -79,10 +79,11 @@ export function Polls() {
                 data={polls}
                 keyExtractor={item => item.id}
                 renderItem={({item}) => {
+                    let [firstName, lastName] = item.owner.name.split(" ")
                     return <Stack key={item.id} bg="gray.600" flexDirection="row" p="4" justifyContent="space-between" alignItems="center" rounded="sm" borderBottomWidth="4" borderBottomColor="yellow.500" mb={3}>
                         <View>
                             <Text color="white" fontWeight="bold">{item.title}</Text>
-                            <Text color="white">Criado por {item.owner.name}</Text>
+                            <Text color="gray.300">Criado por {firstName} {lastName}</Text>
                         </View>
                         <View flexDirection="row">
                             {item.Participant.map(participant => {
