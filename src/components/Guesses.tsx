@@ -1,14 +1,17 @@
 import { Box, FlatList, useToast } from 'native-base';
 import { useEffect, useState } from 'react';
+import { Share } from 'react-native';
 import { api } from '../services/api';
+import { EmptyMyPoolList } from './EmptyMyPoolList';
 import { GameProps, Game } from './Game';
 import { Loading } from './Loading';
 
 interface Props {
   poolId: string;
+  code: string;
 }
 
-export function Guesses({ poolId }: Props) {
+export function Guesses({ poolId, code }: Props) {
 
   const toast = useToast()
 
@@ -81,6 +84,12 @@ export function Guesses({ poolId }: Props) {
     }
   }
 
+  async function handleCodeShare() {
+    await Share.share({
+         message: code
+     })
+ }
+
   useEffect(() => {
     fetchGames()
   }, [poolId])
@@ -103,6 +112,7 @@ export function Guesses({ poolId }: Props) {
           valueSecondTeamPoints={item.guess?.secondTeamPoints}
         />
       )}
+      ListEmptyComponent={() => <EmptyMyPoolList code={code} onShare={handleCodeShare} />}
     />
   );
 }

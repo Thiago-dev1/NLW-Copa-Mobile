@@ -1,7 +1,7 @@
 import {  useRoute } from "@react-navigation/native"
 import { useEffect, useState } from "react";
 import { Share } from "react-native"
-import { HStack, useToast, VStack } from "native-base";
+import { HStack, Text, useToast, View, VStack } from "native-base";
 
 import { EmptyMyPoolList } from "../components/EmptyMyPoolList";
 import { Header } from "../components/Header";
@@ -83,7 +83,14 @@ export function Details() {
                             />
                     </HStack>
 
-                    <Guesses poolId={pollsDetails.id} />
+                    <View display={optionSelected === "Seus palpites" ? "flex" : "none"}>
+                        <Guesses poolId={pollsDetails.id} code={pollsDetails.code} />
+                    </View>
+
+                    <View display={optionSelected === "Ranking do grupo" ? "flex" : "none"}>
+                        <Text color="red.300">Rank</Text>
+                    </View>
+                    
                 </VStack>
             : <EmptyMyPoolList code={pollsDetails.code} onShare={handleCodeShare}/>
             }
