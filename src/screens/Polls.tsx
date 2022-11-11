@@ -7,29 +7,10 @@ import { Button } from "../components/Button";
 import { EmptyPoolList } from "../components/EmptyPoolList";
 import { Header } from "../components/Header";
 import { Loading } from "../components/Loading";
-import { PoolCard } from "../components/PoolCard";
+import { PoolCard, PoolPros } from "../components/PoolCard";
 
 import { api } from "../services/api";
 
-
-export interface pollsProps {
-    Participant: {
-        id: string;
-        User: {
-            AvatartUrl: string | null;
-        };
-    }[];
-    owner: {
-        id: string;
-        name: string;
-    } | null;
-    _count: {
-        Participant: number;
-    };
-    id: string,
-    title: string,
-    code: string
-}
 
 
 export function Polls() {
@@ -38,7 +19,7 @@ export function Polls() {
     const toast = useToast()
 
     const [ isLoading, setIsLoading ] = useState(true)
-    const [polls, setPolls] = useState<pollsProps[]>([])
+    const [polls, setPolls] = useState<PoolPros[]>([])
 
     async function fetchPolls() {
         try {
@@ -50,7 +31,7 @@ export function Polls() {
             console.log(error)
 
             toast.show({
-                title: "Falha",
+                title: "Não foi possivel carregar os bolões",
                 placement: "top",
                 bgColor: "red.500"
             })
@@ -73,34 +54,17 @@ export function Polls() {
                     onPress={() => navigate('find')}
                 />
             </VStack>
-
+            
             {
                 isLoading ? <Loading /> : <FlatList
                 data={polls}
                 keyExtractor={item => item.id}
-                renderItem={({item}) => {
-                    let [firstName, lastName] = item.owner.name.split(" ")
-                    return <Stack key={item.id} bg="gray.600" flexDirection="row" p="4" justifyContent="space-between" alignItems="center" rounded="sm" borderBottomWidth="4" borderBottomColor="yellow.500" mb={3}>
-                        <View>
-                            <Text color="white" fontWeight="bold">{item.title}</Text>
-                            <Text color="gray.300">Criado por {firstName} {lastName}</Text>
-                        </View>
-                        <View flexDirection="row">
-                            {item.Participant.map(participant => {
-                                return (
-                                    <Image key={participant.id} width="8" height="8" rounded={"3xl"} source={{ uri: participant.User.AvatartUrl }} alt={`Nome do bolão ${item.title}`} />
-                                );
-                            })}
-                            {item._count.Participant > 4 ?
-                                <Center w={8} h={8} bgColor="gray.700" rounded="full" borderWidth={1} borderColor="gray.800">
-                                    <Text color="gray.100" fontSize="xs" fontFamily="medium">
-                                        {item._count.Participant ? `+${item._count.Participant - 4}` : 0}
-                                    </Text>
-                                </Center>
-                                : null}
-                        </View>
-                    </Stack>;
-                }}
+                renderItem={({item}) => (
+                    <PoolCard 
+                    data={item} 
+                    onPress={() => navigate("details", {id: item.id})}
+                    />
+                )}
                 px={5}
                 showsVerticalScrollIndicator={false}
                 _contentContainerStyle={{pb: 10}}

@@ -6,8 +6,9 @@ import { Input } from "../components/Input";
 import { Header } from "../components/Header";
 import { useState } from "react";
 import { api } from "../services/api";
-import { pollsProps } from "./Polls";
+
 import { useNavigation } from "@react-navigation/native";
+import { PoolPros } from "../components/PoolCard";
 
 export function Find() {
     const { navigate } = useNavigation()
@@ -16,7 +17,7 @@ export function Find() {
 
     const toast = useToast()
 
-    const [polls, setPolls] = useState<pollsProps[]>([])
+    const [polls, setPolls] = useState<PoolPros[]>([])
     const [code, setCode] = useState('')
     
     async function handleJoinPoll() {
@@ -37,6 +38,7 @@ export function Find() {
 
             setCode('')
             setIsLoading(false)
+            
             
             toast.show({
                 title: "Você entrou no bolão",
