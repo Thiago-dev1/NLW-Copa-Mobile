@@ -11,7 +11,7 @@ interface Props {
 }
 
 export function Team({ code, position, onChangeText, value }: Props) {
-  const disble = value ? false : true
+  const disble = value || value == 0 ? false : true
 
   return (
     <HStack alignItems="center">
